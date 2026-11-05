@@ -18,6 +18,7 @@ pnpm dev -> api :3000, web :5173 (Vite proxies /api)
 pnpm build -> builds shared -> web -> api
 pnpm start -> NODE_ENV=production, api serves ../web/dist
 pnpm --filter api test [feature]
+pnpm e2e
 
 ## How to Group Features
 Group by intent that changes together, not by entity.
@@ -66,6 +67,15 @@ Co-located, not in /tests.
 - web: DashboardPage.test.tsx with msw
 
 Always run pnpm --filter api test [feature] after touching a feature.
+
+## E2E
+- E2E lives in apps/web/e2e/features/[feature]/[feature].e2e.ts
+- Uses Playwright, reuses contracts from @repo/shared to validate mocks
+- Run pnpm e2e for one feature: pnpm --filter web exec playwright test dashboard
+- Use data-testid, not CSS selectors: <div data-testid="partial-banner">
+- Mock degradable failures with page.route() to test fanOut partial paths
+- Traces saved on failure: npx playwright show-report
+- Keep e2e minimal - only critical user journeys, not every edge case (that's for usecase.test.ts)
 
 ## Observability - Otel
 Setup in apps/api/src/shared/observability/otel.ts. MUST be first import in server.ts.
