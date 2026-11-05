@@ -137,3 +137,17 @@ DON'T: Create domain/ application/ infrastructure/ layers, duplicate types outsi
 - Span attributes added for new branches?
 - README intent updated? data-testid added?
 - Seed/teardown cleans up even on failure?
+
+## Agent skills
+
+### Issue tracker
+
+GitHub issues tracked on `patricioarmesto/ts-reference-implementation`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Canonical five-role triage labels (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context (`GLOSSARY.md` + `docs/adr/` at the repository root). See `docs/agents/domain.md`.

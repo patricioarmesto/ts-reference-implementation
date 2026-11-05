@@ -6,3 +6,5 @@ coverage
 playwright-report
 test-results
 .e2e-global-seed.json
+.antigravitycli
+
