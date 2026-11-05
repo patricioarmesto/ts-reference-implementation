@@ -1,16 +1,22 @@
 import {
-  ApiErrorSchema, ListTodosOutputSchema, TodoOutputSchema,
+  ApiErrorSchema, ListTodosOutputSchema, Ok, TodoOutputSchema,
 } from '@repo/shared'
 import request from 'supertest'
 import { describe, expect, it } from 'vitest'
 import { createApp } from '../../app.js'
 import { createActivityLog } from '../../shared/activityLog.js'
+import type { StatsProvider } from '../dashboard/stats.js'
 import { createMemoryTodosRepo } from './repo.js'
+
+const stats: StatsProvider = {
+  get: async () => Ok({ total: 0, active: 0, completed: 0, completionRate: 0 }),
+}
 
 function appWithTodos() {
   return createApp({
     todosRepo: createMemoryTodosRepo(['seeded']),
     activityLog: createActivityLog(),
+    stats,
   })
 }
 

@@ -1,4 +1,7 @@
 import express, { Router, type Express, type NextFunction, type Request, type Response } from 'express'
+import { createGetDashboardUseCase } from './features/dashboard/usecase.js'
+import { createDashboardController } from './features/dashboard/controller.js'
+import type { StatsProvider } from './features/dashboard/stats.js'
 import { createTodosUseCases } from './features/todos/usecase.js'
 import { createTodosController } from './features/todos/controller.js'
 import type { TodosRepo } from './features/todos/repo.js'
@@ -8,6 +11,7 @@ import { logger } from './shared/observability/logger.js'
 export interface AppDeps {
   todosRepo: TodosRepo
   activityLog: ActivityLog
+  stats: StatsProvider
   webDist?: string
 }
 
@@ -20,12 +24,18 @@ export function createApp(deps: AppDeps): Express {
     repo: deps.todosRepo,
     activityLog: deps.activityLog,
   })
+  const dashboardUseCase = createGetDashboardUseCase({
+    todosRepo: deps.todosRepo,
+    stats: deps.stats,
+    activityLog: deps.activityLog,
+  })
 
   const router = Router()
   router.get('/health', (_req, res) => {
     res.json({ status: 'ok' })
   })
   router.use('/todos', createTodosController(todoUseCases))
+  router.use('/dashboard', createDashboardController(dashboardUseCase))
 
   app.use('/api/v1', router)
   app.use('/api', (_req, res) => {

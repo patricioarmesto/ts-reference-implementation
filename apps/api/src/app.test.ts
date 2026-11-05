@@ -1,11 +1,17 @@
+import { Ok } from '@repo/shared'
 import request from 'supertest'
 import { describe, expect, it } from 'vitest'
 import { createApp } from './app.js'
+import type { StatsProvider } from './features/dashboard/stats.js'
 import { createActivityLog } from './shared/activityLog.js'
 import { createMemoryTodosRepo } from './features/todos/repo.js'
 
+const stats: StatsProvider = {
+  get: async () => Ok({ total: 0, active: 0, completed: 0, completionRate: 0 }),
+}
+
 const createTestApp = () =>
-  createApp({ todosRepo: createMemoryTodosRepo([]), activityLog: createActivityLog() })
+  createApp({ todosRepo: createMemoryTodosRepo([]), activityLog: createActivityLog(), stats })
 
 describe('app shell', () => {
   it('reports health', async () => {
