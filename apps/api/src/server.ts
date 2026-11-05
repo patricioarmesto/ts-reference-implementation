@@ -11,6 +11,7 @@ const app = createApp({
   todosRepo,
   activityLog: createActivityLog(),
   stats: createStats({ todosRepo }),
+  e2e: process.env.E2E === 'true',
 })
 
 const port = Number(process.env.PORT ?? 3000)

@@ -6,12 +6,14 @@ import { createTodosUseCases } from './features/todos/usecase.js'
 import { createTodosController } from './features/todos/controller.js'
 import type { TodosRepo } from './features/todos/repo.js'
 import type { ActivityLog } from './shared/activityLog.js'
+import { installE2E } from './shared/e2e.js'
 import { logger } from './shared/observability/logger.js'
 
 export interface AppDeps {
   todosRepo: TodosRepo
   activityLog: ActivityLog
   stats: StatsProvider
+  e2e?: boolean
   webDist?: string
 }
 
@@ -19,6 +21,8 @@ export function createApp(deps: AppDeps): Express {
   const app = express()
   app.disable('x-powered-by')
   app.use(express.json())
+
+  if (deps.e2e) installE2E(app)
 
   const todoUseCases = createTodosUseCases({
     repo: deps.todosRepo,
