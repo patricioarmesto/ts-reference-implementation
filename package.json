@@ -1,0 +1,18 @@
+{
+  "name": "ts-ri",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.12.0",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "pnpm --filter @repo/shared build && concurrently -n shared,api,web -c blue,green,magenta \"pnpm --filter @repo/shared dev\" \"pnpm --filter api dev\" \"pnpm --filter web dev\"",
+    "build": "pnpm --filter @repo/shared build && pnpm --filter web build && pnpm --filter api build",
+    "start": "NODE_ENV=production node apps/api/dist/server.js",
+    "test": "pnpm --filter @repo/shared build && pnpm --filter @repo/shared test && pnpm --filter api test && pnpm --filter api test:contract && pnpm --filter web test",
+    "test:contract": "pnpm --filter api test:contract",
+    "e2e": "pnpm --filter @repo/shared build && pnpm --filter web exec playwright test",
+    "gen": "node scripts/gen-feature.mjs",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": { "concurrently": "^9.1.0" }
+}
