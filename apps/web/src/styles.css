@@ -38,3 +38,10 @@ li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; b
 li label { display: flex; gap: 8px; align-items: center; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
 @media (max-width: 420px) { .app { padding: 12px 8px 48px; } }
+[data-testid="partial-banner"] {
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin: 12px 0;
+}
+[data-testid="partial-banner"] ul { margin: 4px 0 0; padding-left: 18px; }
